@@ -1,35 +1,33 @@
 class Solution {
 public:
-    // Function to calculate trapped rain water
     int
-    trap(vector<int>& height) // Time Complexity: O(n), Space Complexity: O(n)
+    trap(vector<int>& height) // Time Complexity: O(n), Space Complexity: O(1)
     {
         // Edge case: If the height array is empty, return 0
         if (height.empty())
             return 0;
 
-        // Create two vectors to store the maximum height to the left and right
-        // of each position
-        vector<int> leftMax(height.size());
-        vector<int> rightMax(height.size());
-        int n = height.size();
+        int left = 0;                  // Left pointer
+        int right = height.size() - 1; // Right pointer
+        int leftMax = 0;               // Maximum height to the left
+        int rightMax = 0;              // Maximum height to the right
+        int totalWater = 0;            // Total trapped water
 
-        // First For Loop: Calculate left max for each position
-        leftMax[0] = height[0]; // Initialize the first element
-        for (int i = 1; i < n; i++) {
-            leftMax[i] = max(leftMax[i - 1], height[i]);
-        }
+        // While left pointer is less than right pointer
+        while (left < right) {
+            // Update leftMax and rightMax
+            leftMax = max(leftMax, height[left]);
+            rightMax = max(rightMax, height[right]);
 
-        // Second For Loop: Calculate right max for each position
-        rightMax[n - 1] = height[n - 1]; // Initialize the last element
-        for (int i = n - 2; i >= 0; i--) {
-            rightMax[i] = max(rightMax[i + 1], height[i]);
-        }
-
-        // Third For Loop: Calculate total trapped water
-        int totalWater = 0; // Initialize total water to 0
-        for (int i = 0; i < n; i++) {
-            totalWater += min(leftMax[i], rightMax[i]) - height[i];
+            // Calculate trapped water based on the smaller of leftMax and
+            // rightMax
+            if (leftMax < rightMax) {
+                totalWater += (leftMax - height[left]);
+                left++; // Move left pointer to the right
+            } else {
+                totalWater += (rightMax - height[right]);
+                right--; // Move right pointer to the left
+            }
         }
 
         // Return the total trapped water
