@@ -26,12 +26,10 @@ public:
                     while (st < n && nums[st] == nums[st - 1])
                         st++;
 
-                    while (end >=0 && nums[end] == nums[end + 1])
+                    while (end >= 0 && nums[end] == nums[end + 1])
                         end--;
-
-                    continue;
                 }
-                if (nums[st] + nums[end] > -target) {
+                else if (nums[st] + nums[end] > -target) {
                     end--;
                 } else {
                     st++;
