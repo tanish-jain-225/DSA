@@ -23,10 +23,10 @@ public:
                     st++;
                     end--;
 
-                    while (st < end && nums[st] == nums[st - 1])
+                    while (st < n && nums[st] == nums[st - 1])
                         st++;
 
-                    while (st < end && nums[end] == nums[end + 1])
+                    while (end >=0 && nums[end] == nums[end + 1])
                         end--;
 
                     continue;
