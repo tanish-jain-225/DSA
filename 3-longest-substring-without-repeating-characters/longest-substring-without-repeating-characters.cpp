@@ -24,5 +24,5 @@ public:
             result = max(length, result);
         }
         return result;
-    }
+    } // TC: O(n) and SC: O(1)
 };
