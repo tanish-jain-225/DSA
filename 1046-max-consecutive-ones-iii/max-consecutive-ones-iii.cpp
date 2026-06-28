@@ -14,10 +14,12 @@ public:
                 f[nums[low]]--;
                 low++;
             }
+
             int length = high - low + 1;
             result = max(result, length);
         }
 
         return result;
-    }
+        
+    } // TC: O(n) and SC: O(1)
 };
