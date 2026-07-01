@@ -11,17 +11,15 @@
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        // Initialize two pointers, slow and fast
+        // Initialise Pointers
         ListNode* slow = head;
         ListNode* fast = head;
 
-        // Move fast pointer two steps and slow pointer one step at a time
-        while (fast != nullptr && fast->next != nullptr) {
-            slow = slow->next;
+        while (fast && fast->next) {
             fast = fast->next->next;
+            slow = slow->next;
         }
 
-        // When fast pointer reaches the end, slow pointer will be at the middle
         return slow;
     }
 };
