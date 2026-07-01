@@ -13,27 +13,19 @@ public:
         ListNode* slow = head;
         ListNode* fast = head;
 
-        // First step: Determine if a cycle exists
         while (fast && fast->next) {
-            // Move pointers
             slow = slow->next;
             fast = fast->next->next;
 
-            if (slow == fast) // Cycle detected
-            {
-                // Second step: Find the entry point of the cycle
-                slow = head; // Reset slow to head
-
-                // Move both pointers at the same pace
+            if (slow == fast) {
+                slow = head;
                 while (slow != fast) {
                     slow = slow->next;
                     fast = fast->next;
                 }
-
-                return slow; // Entry point of the cycle
+                return slow;
             }
         }
-
-        return nullptr; // No cycle
+        return NULL;
     }
 };
