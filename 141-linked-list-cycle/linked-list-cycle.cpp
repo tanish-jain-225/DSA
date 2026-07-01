@@ -10,21 +10,17 @@ class Solution {
 public:
     bool hasCycle(ListNode* head) // Floyd's Tortoise and Hare Algorithm
     {
-        // Initialize two pointers
         ListNode* slow = head;
         ListNode* fast = head;
 
-        // Traverse the list
         while (fast && fast->next) {
-            slow = slow->next;       // Move slow pointer by 1
-            fast = fast->next->next; // Move fast pointer by 2
+            slow = slow->next;
+            fast = fast->next->next;
 
-            // Check if they meet
             if (slow == fast) {
-                return true; // Cycle detected
+                return true;
             }
         }
-
-        return false; // No cycle
+        return false;
     }
 };
