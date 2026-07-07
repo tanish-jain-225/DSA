@@ -1,7 +1,12 @@
 class Solution {
 public:
     vector<vector<int>> mergeInterval(vector<vector<int>>& arr) {
-        // No sort required since already sorted order is maintained
+        // Handle empty case
+        if (arr.empty())
+            return {};
+
+        // Sort intervals
+        sort(arr.begin(), arr.end());
 
         vector<vector<int>> ans;
         int n = arr.size();
@@ -10,23 +15,25 @@ public:
         int end1 = arr[0][1];
 
         for (int i = 1; i < n; i++) {
+
             int start2 = arr[i][0];
             int end2 = arr[i][1];
 
+            // Overlapping intervals
             if (end1 >= start2) {
-                start1 = start1;
                 end1 = max(end1, end2);
-                continue; // Let loop continue
+                continue;
             }
 
-            ans.push_back({start1, end1}); // Store first instance
+            // Store merged interval
+            ans.push_back({start1, end1});
 
-            // Update pointers
+            // Move to next interval
             start1 = start2;
             end1 = end2;
         }
 
-        // finally push last valid pair
+        // Store last interval
         ans.push_back({start1, end1});
 
         return ans;
@@ -50,9 +57,14 @@ public:
             res.push_back(intervals[i]);
         }
 
+        // If new interval belongs at the end
         if (!inserted)
             res.push_back(newInterval);
 
+        // Ensure sorted order before merging
+        sort(res.begin(), res.end());
+
+        // Merge overlapping intervals
         res = mergeInterval(res);
 
         return res;
