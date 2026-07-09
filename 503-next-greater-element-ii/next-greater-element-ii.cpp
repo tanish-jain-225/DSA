@@ -1,34 +1,35 @@
 class Solution {
 public:
-    vector<int> nextGreaterElements(
-        vector<int>& nums) // Function to find the next greater elements in a
-                           // circular array - TC: O(n), SC: O(n)
-    {
-        // Get the size of the input array
+    vector<int> nextGreaterElements(vector<int>& nums) {
+
         int n = nums.size();
-        vector<int> result(n, -1);
 
-        stack<int> s; // Stack to keep indexes of nums array
+        vector<int> res(n);
 
-        // We will traverse the array twice to simulate the circular nature
-        for (int i = 2 * n - 1; i >= 0;
-             i--) // Traverse from the end to the start
-        {
-            while (s.size() > 0 &&
-                   nums[s.top()] <=
-                       nums[i % n]) // Pop elements that are less than or equal
-                                    // to current element
-            {
-                s.pop();
+        stack<int> st;
+
+        // Traverse twice to simulate circular array
+        for (int i = 2 * n - 1; i >= 0; i--) {
+
+            int idx = i % n;
+
+            // Remove all smaller or equal elements
+            while (!st.empty() && st.top() <= nums[idx]) {
+                st.pop();
             }
 
-            // If stack is empty, there is no greater element
-            result[i % n] = s.empty() ? -1 : nums[s.top()];
+            // Fill answer only during the second pass
+            if (i < n) {
+                if (st.empty())
+                    res[idx] = -1;
+                else
+                    res[idx] = st.top();
+            }
 
-            s.push(i % n); // Valid index pushed onto stack
+            // Push current element
+            st.push(nums[idx]);
         }
 
-        // Return the result array
-        return result;
+        return res;
     }
 };
