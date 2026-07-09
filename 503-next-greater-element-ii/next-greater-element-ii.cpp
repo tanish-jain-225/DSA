@@ -1,33 +1,28 @@
 class Solution {
 public:
     vector<int> nextGreaterElements(vector<int>& nums) {
-
         int n = nums.size();
-
         vector<int> res(n);
-
         stack<int> st;
 
-        // Traverse twice to simulate circular array
-        for (int i = 2 * n - 1; i >= 0; i--) {
+        for (int i = n - 2; i >= 0;
+             i--) // ready stack before last element index i.e. i-2 to 0
+        {
+            st.push(nums[i]);
+        }
 
-            int idx = i % n;
-
-            // Remove all smaller or equal elements
-            while (!st.empty() && st.top() <= nums[idx]) {
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && st.top() <= nums[i]) {
                 st.pop();
             }
 
-            // Fill answer only during the second pass
-            if (i < n) {
-                if (st.empty())
-                    res[idx] = -1;
-                else
-                    res[idx] = st.top();
+            if (st.empty()) {
+                res[i] = -1;
+            } else {
+                res[i] = st.top();
             }
 
-            // Push current element
-            st.push(nums[idx]);
+            st.push(nums[i]);
         }
 
         return res;
