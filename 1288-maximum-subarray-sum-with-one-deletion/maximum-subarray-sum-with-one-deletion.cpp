@@ -1,39 +1,33 @@
 class Solution {
 public:
     int maximumSum(vector<int>& arr) {
-        // Size of array
+
         int n = arr.size();
 
-        // Initial values
-        int noDelete = arr[0];
-        int oneDelete = arr[0];
-        int result = arr[0];
+        int noPower = arr[0]; // Maximum sum without deletion
+        int power = 0;        // Maximum sum with one deletion
+        int res = arr[0];
 
         for (int i = 1; i < n; i++) {
 
-            // Save previous states
-            int prevNoDelete = noDelete;
-            int prevOneDelete = oneDelete;
+            // Save previous values
+            int prevNoPower = noPower;
+            int prevPower = power;
 
-            // Candidates
+            // No deletion
+            int v1 = arr[i];
+            int v2 = prevNoPower + arr[i];
 
-            // noDelete Conditions
-            int v1 = prevNoDelete + arr[i];   // Extend without deletion
-            int v2 = arr[i];                  // Start new subarray
+            // One deletion
+            int v3 = prevPower + arr[i];
+            int v4 = prevNoPower;
 
-            // oneDelete Conditions
-            int v3 = prevOneDelete + arr[i];  // Already deleted, extend
-            int v4 = prevNoDelete;            // Delete current element
+            noPower = max(v1, v2);
+            power = max(v3, v4);
 
-            // max out values
-            noDelete = max(v1, v2);
-            oneDelete = max(v3, v4);
-
-            // best possible outcome
-            result = max(result, max(noDelete, oneDelete));
+            res = max(res, max(noPower, power));
         }
 
-        // answer 
-        return result;
+        return res;
     }
 };
