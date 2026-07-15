@@ -10,49 +10,83 @@
  */
 class Solution {
 public:
-    ListNode* swapPairs(ListNode* head) {
-        // Base case: if the list is empty or has only one node
-        if (!head || !head->next) {
-            return head;
-        }
+    // Reverse exactly k nodes
+    ListNode* reverse(ListNode* head, int k) {
 
-        // Nodes to be swapped
-        ListNode* first = head;
-        ListNode* second = head->next;
+        ListNode* curr = head;
         ListNode* prev = nullptr;
 
-        // Iterating through the list and swapping nodes in pairs
-        while (first && second) // Ensure both nodes exist for swapping
-        {
-            ListNode* third = second->next; // Store the next pair's first node
-
-            // Swapping Logic
-
-            // Adjusting pointers to swap the nodes
-            second->next = first;
-            first->next = third;
-
-            // Re-linking the previous pair - Check if prev is not null
-            if (prev) {
-                prev->next =
-                    second; // Link previous pair to the current swapped pair
-            } else {
-                head = second; // Update head for the first swap
-            }
-
-            // Move to the next pair
-            prev = first;
-            first = third;
-
-            // Update second for the next iteration - Check if first is not null
-            if (first) {
-                second = first->next;
-            } else {
-                break;
-            }
+        while (k--) {
+            ListNode* temp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = temp;
         }
 
-        // Return the new head of the modified list
-        return head;
+        return prev; // New head after reversal
+    }
+
+    ListNode* swapPairs(ListNode* head) {
+
+        int size = 2;
+
+        if (head == nullptr)
+            return head;
+
+        ListNode* res = nullptr;
+
+        ListNode* left = head;
+        ListNode* prevleft = nullptr;
+
+        while (true) {
+
+            // Find right node of current group
+            ListNode* right = left;
+
+            for (int i = 0; i < size - 1; i++) {
+                if (right == nullptr)
+                    break;
+                right = right->next;
+            }
+
+            // Less than 2 nodes left
+            if (right == nullptr) {
+
+                if (prevleft)
+                    prevleft->next = left;
+
+                if (res == nullptr)
+                    res = head;
+
+                break;
+            }
+
+            ListNode* nextleft = right->next;
+
+            // Reverse current pair
+            ListNode* newHead = reverse(left, size);
+
+            // Connect previous pair
+            if (prevleft)
+                prevleft->next = newHead;
+
+            // First reversed pair becomes answer
+            if (res == nullptr)
+                res = newHead;
+
+            // Old left is now the tail
+            left->next = nextleft;
+
+            // Move previous pointer
+            prevleft = left;
+
+            // Next group
+            left = nextleft;
+
+            if (left == nullptr)
+                break;
+        }
+
+        return res;
     }
 };
