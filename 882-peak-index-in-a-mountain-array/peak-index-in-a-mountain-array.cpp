@@ -10,10 +10,10 @@ public:
             int guess = (low + high) / 2;
 
             if (arr[guess] < arr[guess + 1]) {
-                ans = guess+1;
+                ans = guess + 1;
                 low = guess + 1;
-            } else if (arr[guess] > arr[guess + 1]) {
-                ans=guess;
+            } else {
+                ans = guess;
                 high = guess - 1;
             }
         }
