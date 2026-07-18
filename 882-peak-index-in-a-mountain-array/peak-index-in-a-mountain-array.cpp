@@ -1,23 +1,23 @@
 class Solution {
 public:
     int peakIndexInMountainArray(vector<int>& arr) {
-        int start = 1; // Also here '0' is replaced by '1' since answer peak
-                       // cannot be at start point
-        int end = arr.size() -
-                  2; // int end = arr.size() - 1; - Here '-2' is used to exclude
-                     // last element as it cannot be answer as peak
+        int n = arr.size();
+        int ans = -1;
+        int low = 0;
+        int high = n - 1;
 
-        while (start <= end) {
-            int mid = (start + ((end - start) / 2));
+        while (low <= high) {
+            int guess = (low + high) / 2;
 
-            if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1]) {
-                return mid;
-            } else if (arr[mid - 1] < arr[mid]) {
-                start = mid + 1;
-            } else {
-                end = mid - 1;
+            if (arr[guess] < arr[guess + 1]) {
+                ans = guess+1;
+                low = guess + 1;
+            } else if (arr[guess] > arr[guess + 1]) {
+                ans=guess;
+                high = guess - 1;
             }
         }
-        return -1;
+
+        return ans;
     }
 };
