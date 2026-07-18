@@ -1,38 +1,54 @@
 class Solution {
 public:
-    int search(vector<int>& arr, int target) {
-        // Initial data
-        int count = arr.size();
-        int start = 0;
-        int end = (count - 1);
+    int search(vector<int>& nums, int target) {
 
-        // BS Operations as per sorted sides
-        while (start <= end) {
-            int mid = (start + ((end - start) / 2));
+        int n = nums.size();
 
-            if (arr[mid] == target) {
-                // Result when finally every step is checked
-                return mid;
-            }
+        // ---------------- Part 1 : Find Pivot ----------------
 
-            if (arr[start] <= arr[mid]) {
-                // Left Sorted
-                if (arr[start] <= target && target <= arr[mid]) {
-                    end = (mid - 1);
-                } else {
-                    start = (mid + 1);
-                }
+        int low = 0;
+        int high = n - 1;
+        int idx = 0; // Index of minimum element (pivot)
+
+        while (low <= high) {
+
+            int guess = (low + high) / 2;
+
+            if (nums[guess] > nums[n - 1]) {
+                low = guess + 1;
             } else {
-                // Right Sorted
-                if (arr[mid] <= target && target <= arr[end]) {
-                    start = (mid + 1);
-                } else {
-                    end = (mid - 1);
-                }
+                idx = guess;
+                high = guess - 1;
             }
         }
-        // If after all processes still target not found return -1 indicating
-        // not found
+
+        // ---------------- Part 2 : Decide Search Region ----------------
+
+        if (target <= nums[n - 1]) {
+            low = idx;
+            high = n - 1;
+        } else {
+            low = 0;
+            high = idx - 1;
+        }
+
+        // ---------------- Part 3 : Normal Binary Search ----------------
+
+        while (low <= high) {
+
+            int guess = (low + high) / 2;
+
+            if (nums[guess] == target) {
+                return guess;
+            }
+
+            if (nums[guess] < target) {
+                low = guess + 1;
+            } else {
+                high = guess - 1;
+            }
+        }
+
         return -1;
     }
 };
