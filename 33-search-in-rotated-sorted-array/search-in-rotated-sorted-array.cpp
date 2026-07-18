@@ -5,6 +5,8 @@ public:
         int low = 0;
         int high = n - 1;
 
+        // One Pass BS Solution
+
         while (low <= high) {
             int guess = (low + high) / 2;
 
