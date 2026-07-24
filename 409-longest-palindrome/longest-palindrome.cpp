@@ -23,12 +23,13 @@ public:
             int freq = f[s[i]];
 
             if (freq % 2 == 0) {
-                evenSum += freq;
+                evenSum = evenSum + freq;
             } else {
-                evenSum +=
-                    freq -
-                    1;   // Make that odd freq to even and add that to evenSum
-                odd = 1; // Use Any One final odd of freq one
+                // Make that odd freq to even and add that to evenSum
+                evenSum = evenSum + (freq - 1);
+
+                // Use Any One final odd of freq one
+                odd = 1;
             }
 
             // Remove so it is not processed again
