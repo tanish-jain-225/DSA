@@ -2,30 +2,30 @@ class Solution {
 public:
     int maxNumberOfBalloons(string text) {
         int n = text.size();
-
-        unordered_map<char, int> have;
-        unordered_map<char, int> need;
+        unordered_map<char, int> f;
 
         for (int i = 0; i < n; i++) {
-            have[text[i]]++;
+            f[text[i]]++;
         }
 
-        need['b'] = 1;
-        need['a'] = 1;
-        need['l'] = 2;
-        need['o'] = 2;
-        need['n'] = 1;
+        string need = "balloon";
+        int m = need.size();
 
         int res = INT_MAX;
 
-        for (auto i : need) {
-            char c = i.first;
+        for (int i = 0; i < m; i++) {
+            if (f.find(need[i]) != f.end()) {
+                int freq = f[need[i]];
 
-            int fneed = i.second;
-            int fhave = have[c];
+                // 'l' and 'o' are required twice - Handle Repeat Case
+                if (need[i] == 'l' || need[i] == 'o') {
+                    freq = freq / 2;
+                }
 
-            int times = fhave / fneed;
-            res = min(res, times);
+                res = min(res, freq);
+            } else {
+                res = min(res, 0);
+            }
         }
 
         return res;
