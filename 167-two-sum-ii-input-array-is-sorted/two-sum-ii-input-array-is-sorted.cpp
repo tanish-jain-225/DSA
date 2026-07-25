@@ -8,7 +8,7 @@ public:
 
         while (i < j) {
             if (numbers[i] + numbers[j] == target) {
-                return {i + 1, j + 1};
+                return {i + 1, j + 1}; // Incremented by One
             }
 
             if (numbers[i] + numbers[j] > target) {
@@ -18,6 +18,6 @@ public:
             }
         }
 
-        return {-1, -1};
+        return {0, 0}; // Default fallback
     }
 };
