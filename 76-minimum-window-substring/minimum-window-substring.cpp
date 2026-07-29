@@ -1,53 +1,68 @@
 class Solution {
 public:
-    bool correct(int have[], int needed[]) // incorrect when frequency we have is less then required/needed 
-    { 
-        for (int i = 0; i < 256; i++) {
-            if (have[i] < needed[i])
+    // Returns true if current window contains all required characters
+    bool helper(unordered_map<char, int>& fs, unordered_map<char, int>& ft) {
+
+        for (auto i : ft) {
+
+            char c = i.first;
+            int need = i.second;
+
+            if (fs[c] < need) {
                 return false;
+            }
         }
+
         return true;
     }
 
     string minWindow(string s, string t) {
-        int n = s.size();
-        int low = 0;
-        int high = 0;
 
-        int have[256] = {0};
-        int needed[256] = {0};
+        unordered_map<char, int> fs;
+        unordered_map<char, int> ft;
 
-        int result = INT_MAX;
-        int start = 0;
+        int ss = s.size();
+        int ts = t.size();
 
-        // Traverse and get frequency of characters of t
-        for (char ch : t) {
-            needed[ch]++;
+        // Frequency of target string
+        for (int i = 0; i < ts; i++) {
+            ft[t[i]]++;
         }
 
-        for (high = 0; high < n; high++) {
-            // Keep increasing till you reach needed answer
-            have[s[high]]++;
+        int low = 0;
 
-            while (correct(have, needed)) // Call function and check if correct 
-            {
-                // Log answer
-                int length = high - low + 1;
-                if (result > length) {
-                    result = length;
+        int minLen = INT_MAX;
+        int start = -1;
+
+        for (int high = 0; high < ss; high++) {
+
+            // Expand window
+            fs[s[high]]++;
+
+            // Shrink window while it is valid
+            while (helper(fs, ft)) {
+
+                int len = high - low + 1;
+
+                if (len < minLen) {
+                    minLen = len;
                     start = low;
                 }
 
-                // Shrink and check
-                have[s[low]]--;
+                fs[s[low]]--;
+
+                if (fs[s[low]] == 0) {
+                    fs.erase(s[low]);
+                }
+
                 low++;
             }
         }
 
-        // Final answer decision
-        if (result == INT_MAX)
+        if (start == -1) {
             return "";
-        return s.substr(start, result);
+        }
 
+        return s.substr(start, minLen);
     }
 };
