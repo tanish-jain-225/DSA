@@ -1,49 +1,50 @@
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& nums, int target) {
-
-        int n = nums.size();
-
+    int first(vector<int>& a, int x) {
+        int n = a.size();
         int low = 0;
         int high = n - 1;
+        int res = -1;
 
-        int first = -1;
-
-        // Find first occurrence
         while (low <= high) {
-
             int guess = (low + high) / 2;
-
-            if (nums[guess] == target) {
-                first = guess;
+            if (a[guess] > x) {
                 high = guess - 1;
-            } else if (nums[guess] < target) {
+            } else if (a[guess] < x) {
                 low = guess + 1;
             } else {
+                res = guess;
                 high = guess - 1;
             }
         }
+        return res;
+    }
 
-        low = 0;
-        high = n - 1;
+    int last(vector<int>& a, int x) {
 
-        int last = -1;
+        int n = a.size();
+        int low = 0;
+        int high = n - 1;
+        int res = -1;
 
-        // Find last occurrence
         while (low <= high) {
-
             int guess = (low + high) / 2;
-
-            if (nums[guess] == target) {
-                last = guess;
-                low = guess + 1;
-            } else if (nums[guess] < target) {
+            if (a[guess] > x) {
+                high = guess - 1;
+            } else if (a[guess] < x) {
                 low = guess + 1;
             } else {
-                high = guess - 1;
+                res = guess;
+                low = guess + 1;
             }
         }
+        return res;
+    }
 
-        return {first, last};
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int firstpos = first(nums, target);
+        int lastpos = last(nums, target);
+
+        return {firstpos, lastpos};
     }
 };
