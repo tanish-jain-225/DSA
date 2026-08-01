@@ -7,7 +7,7 @@ public:
 
         for (int i = 0; i < n; i++) {
 
-            hours += piles[i] / speed;
+            hours = hours + piles[i] / speed;
 
             if (piles[i] % speed != 0) {
                 hours++;
@@ -25,7 +25,7 @@ public:
         int low = 1;
 
         // Maximum possible speed = largest pile
-        int high = -1;
+        int high = INT_MIN;
         for (int i = 0; i < n; i++) {
             high = max(high, piles[i]);
         }
@@ -35,7 +35,7 @@ public:
         // Binary Search on answer
         while (low <= high) {
 
-            int guess = low + (high - low) / 2;
+            int guess = (low + high) / 2;
 
             long long hours = helper(piles, n, guess);
 
