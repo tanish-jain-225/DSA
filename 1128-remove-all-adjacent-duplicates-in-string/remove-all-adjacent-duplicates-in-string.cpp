@@ -2,36 +2,31 @@ class Solution {
 public:
     string removeDuplicates(string s) {
         int n = s.size();
+        int i;
+
         stack<char> st;
         string res;
 
-        for (int i = 0; i < n; i++) // Fill stack
-        {
-            if (st.empty()) // First iteration
-            {
+        for (i = 0; i < n; i++) {
+            if (st.empty()) {
                 st.push(s[i]);
                 continue;
             }
-
-            if (st.top() == s[i]) // pop condition
-            {
+            if (st.top() == s[i]) {
                 st.pop();
                 continue;
             }
-
-            st.push(s[i]); // default stack pushes
+            st.push(s[i]);
         }
 
-        while (!st.empty()) // empty stack till zeroed
-        {
-            res.push_back(st.top()); // store answer
-            st.pop();       // remove current item
+        while (!st.empty()) {
+            char c = st.top();
+            res.push_back(c);
+            st.pop();
         }
 
-        // Since answer is reversed, to get back to og state
         reverse(res.begin(), res.end());
 
-        // final answer return
         return res;
     }
 };
