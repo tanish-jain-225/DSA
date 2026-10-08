@@ -1,35 +1,31 @@
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
+        // sort(nums.begin(), nums.end()); - Optional
         int n = nums.size();
         int low = 0;
         int high = 0;
-        int sum = 0;
-        int res = INT_MAX;
 
-        for (high = 0; high < n; high++) {
-            // Pehle Sahi tak badhao : High++
+        int res = INT_MAX;
+        int sum = 0;
+
+        for (int high = 0; high < n; high++) {
             sum += nums[high];
 
-            while (sum >= target) // Jabtak Sahi store and ghatao : low++
-            {
-                // Store
+            while (sum >= target) {
                 int length = high - low + 1;
                 res = min(res, length);
 
-                // Ghatao
                 sum -= nums[low];
                 low++;
             }
-            // Yaha tak pahuch gaye balle balle minimum window hai tumhare pass
         }
 
-        // Agar kuch nahi bane toh return 0
-        if (res == INT_MAX) {
+        if(res == INT_MAX)
+        {
             return 0;
         }
 
-        // Bana hai toh answer return
         return res;
     }
 };
