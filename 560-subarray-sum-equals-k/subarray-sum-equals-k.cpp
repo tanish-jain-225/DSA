@@ -1,8 +1,7 @@
 class Solution {
 public:
-    int subarraySum(vector<int>& arr, int k) {
-
-        int n = arr.size();
+    int subarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
         int sum = 0;
         int res = 0;
 
@@ -10,17 +9,13 @@ public:
         f[0] = 1;
 
         for (int i = 0; i < n; i++) {
+            sum += nums[i];
 
-            // Current prefix sum
-            sum += arr[i];
+            int ques = sum - k;
+            int freq = f[ques];
 
-            // We need a previous prefix sum = sum - k
-            int quest = sum - k;
+            res += freq;
 
-            // Add its frequency to the answer
-            res += f[quest];
-
-            // Store current prefix sum
             f[sum]++;
         }
 
