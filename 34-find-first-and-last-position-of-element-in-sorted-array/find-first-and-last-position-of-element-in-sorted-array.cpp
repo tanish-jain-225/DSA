@@ -1,50 +1,55 @@
 class Solution {
 public:
-    int first(vector<int>& a, int x) {
-        int n = a.size();
+    int first(vector<int>& nums, int target) {
+        int n = nums.size();
         int low = 0;
         int high = n - 1;
         int res = -1;
 
         while (low <= high) {
             int guess = (low + high) / 2;
-            if (a[guess] > x) {
+
+            if (nums[guess] == target) {
+                res = guess;
                 high = guess - 1;
-            } else if (a[guess] < x) {
+            } else if (nums[guess] < target) {
                 low = guess + 1;
             } else {
-                res = guess;
                 high = guess - 1;
             }
         }
         return res;
     }
 
-    int last(vector<int>& a, int x) {
-
-        int n = a.size();
+    int last(vector<int>& nums, int target) {
+        int n = nums.size();
         int low = 0;
         int high = n - 1;
         int res = -1;
 
         while (low <= high) {
             int guess = (low + high) / 2;
-            if (a[guess] > x) {
-                high = guess - 1;
-            } else if (a[guess] < x) {
-                low = guess + 1;
-            } else {
+
+            if (nums[guess] == target) {
                 res = guess;
                 low = guess + 1;
+            } else if (nums[guess] < target) {
+                low = guess + 1;
+            } else {
+                high = guess - 1;
             }
         }
         return res;
     }
 
     vector<int> searchRange(vector<int>& nums, int target) {
-        int firstpos = first(nums, target);
-        int lastpos = last(nums, target);
+        vector<int> answer;
+        int firstOcc = first(nums, target);
+        int lastOcc = last(nums, target);
 
-        return {firstpos, lastpos};
+        answer.push_back(firstOcc);
+        answer.push_back(lastOcc);
+
+        return answer;
     }
 };
