@@ -8,12 +8,13 @@
  */
 class Solution {
 public:
-    bool hasCycle(ListNode* head) // Floyd's Tortoise and Hare Algorithm
-    {
-        ListNode* slow = head;
-        ListNode* fast = head;
+    bool hasCycle(ListNode* head) {
+        ListNode* t = head;
 
-        while (fast && fast->next) {
+        ListNode* slow = t;
+        ListNode* fast = t;
+
+        while (fast != nullptr && fast->next != nullptr) {
             slow = slow->next;
             fast = fast->next->next;
 
@@ -21,6 +22,7 @@ public:
                 return true;
             }
         }
+
         return false;
     }
 };
