@@ -1,33 +1,36 @@
 class Solution {
 public:
     int maximumSum(vector<int>& arr) {
-
+        // Loop Helpers
         int n = arr.size();
+        int i;
 
-        int noPower = arr[0]; // Maximum sum without deletion
-        int power = 0;        // Maximum sum with one deletion
+        // Starting Power States
+        int power = 0;
+        int noPower = arr[0];
+
+        // Inital result
         int res = arr[0];
 
-        for (int i = 1; i < n; i++) {
-
-            // Save previous values
-            int prevNoPower = noPower;
-            int prevPower = power;
-
-            // No deletion
+        // Check all in loop
+        for (i = 1; i < n; i++) {
+            // No Power
             int v1 = arr[i];
-            int v2 = prevNoPower + arr[i];
+            int v2 = noPower + arr[i];
 
-            // One deletion
-            int v3 = prevPower + arr[i];
-            int v4 = prevNoPower;
+            // Power used
+            int v3 = power + arr[i];
+            int v4 = noPower;
 
+            // Store best
+            res = max(res, max(max(v1, v2), max(v3, v4)));
+
+            // Update
             noPower = max(v1, v2);
             power = max(v3, v4);
-
-            res = max(res, max(noPower, power));
         }
 
+        // return best case subarray option by kadane
         return res;
     }
 };
